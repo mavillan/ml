@@ -1,0 +1,43 @@
+\documentclass[spanish, fleqn]{article}
+\usepackage[spanish]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath}
+\usepackage{amsfonts,txfonts}
+\usepackage{mathrsfs}
+\usepackage[colorlinks, urlcolor=blue]{hyperref}
+\usepackage{fourier}
+\usepackage[top = 2.5cm, bottom = 2cm, left = 2cm, right = 2cm]{geometry}
+
+
+\title{Presentación de Proyecto \\INF393: Máquinas de Aprendizaje}
+\author{Martín Villanueva}
+\date{27 de octubre 2015}
+
+\begin{document}
+\maketitle
+
+\thispagestyle{empty}
+
+
+\section{El problema}
+
+El problema a abordar corresponde a la identificación de imágenes faciales (clasificación), donde dado un \textit{gallery set} (imágenes de entrenamiento) y un \textit{probe set} (imágenes de prueba) se desea determinar un algoritmo que pueda para cada imágen en el \textit{test set}, predecir aquella que le corresponde en el \textit{gallery set}. Adicionalmente se agrega como restricción al problema, el que existen muchas clases (muchas personas) y pocos ejemplos por cada clase (un ejemplo por clase en el peor de los casos), lo que hace complicado dar con un algoritmo que pueda generalizar bien.  
+
+\section{La solución}
+
+Debido a la naturaleza del problema, la mayor parte de las soluciones se basan en hallar una representación adecuada de las imágenes (PCA, LDA, Bag of Words, entre otras) y realizar la identificación como una búsqueda de vecinos más cercanos, según una métrica de similaridad. Sin embargo la solución que se plantea es construir un kernel based SVM, donde el output de esta sea interpretado como la métrica de similaridad \footnotemark[1]. Para esto se propone modificar la representación de la imágen a un esquema de histograma de características (Spatial local binary patterns \footnotemark[2], Histogram of oriented gradients \footnotemark[3], etc) y cambiando el \textit{difference space} \footnotemark[1], por medio de un kernel que mida correctamente la similitud entre histogramas (chi-square, histogram intersection, etc) y que cumpla el \textit{Mercer's Theorem}.  
+
+\section{El dataset}
+
+Para testear la solución se propone como dataset el Color FERET Database \footnotemark[4], extrayendo unos pocos ejemplos de cada persona (3-5) para conformar el training set, dejando el resto de las imágenes de cada persona como testing set.
+
+\footnotetext[1]{\href{http://papers.nips.cc/paper/1609-support-vector-machines-applied-to-face-recognition.pdf}{Support vector machines applied to face recognition}}
+\footnotetext[2]{\href{http://www.scholarpedia.org/article/Local_Binary_Patterns}{Local Binary Pattern}}
+\footnotetext[3]{\href{https://en.wikipedia.org/wiki/Histogram_of_oriented_gradients}{HoG}}
+\footnotetext[4]{\href{http://www.nist.gov/itl/iad/ig/colorferet.cfm}{Color FERET Database}}
+  
+
+
+
+\vfill\hfill MV/\LaTeXe
+\end{document}
