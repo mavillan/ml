@@ -33,7 +33,3 @@ def generating_datasets(dataname, ns=20, otype='binary'):
 			np.savetxt(name_tr, B[0:np.round(0.75*r)], delimiter=' ')
 			np.savetxt(name_ts, B[np.round(0.75*r):r], delimiter=' ')
 	return 1
-	
-
-def sigmoid(z):
-	return 1./(1. + np.exp(-z))
