@@ -1,4 +1,4 @@
-*.pdf
+#*.pdf
 *.ps
 
 *.aux
@@ -15,9 +15,9 @@
 *.vrb
 
 *.eps
-*.pdf
+#*.pdf
 *.svg
-*.png
+#*.png
 
 *.bib
 
