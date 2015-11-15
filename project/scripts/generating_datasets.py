@@ -36,7 +36,7 @@ else:
 	os.makedirs('./testing_set/')
 
 #iterate through all files in ./faces directory
-for i in range(1,154):
+for i in range(1,153):
 	tgt = path+str(i)+'/'
 	files = os.listdir(tgt)
 	#shuffle the files to make it fair
