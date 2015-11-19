@@ -10,7 +10,7 @@ Script Usage
   python2 scripts/generating_datasets.py <inp_db>  <n_train>
 > <inp_db> input database: faces94, faces95 or faces96 as string
 > <n_train> is the number for samples per class in training set
-> The remaining samples will be copied in testing :set
+> The remaining samples will be copied in testing_set
 """
 
 
