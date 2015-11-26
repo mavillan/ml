@@ -39,6 +39,6 @@ _region_.tex
 \#*\#
 .\#*
 *~
-*.npy
+#*.npy
 
 DEADJOE
