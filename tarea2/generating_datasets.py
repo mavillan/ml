@@ -1,5 +1,6 @@
 import numpy as np
 import sys
+import os
 
 #dataname - string - dataset name
 #ns - integer - number of sets to generate
@@ -35,4 +36,21 @@ def generating_datasets(dataname, ns=20, otype='binary'):
 			#save sets as text files
 			np.savetxt(name_tr, B[0:np.round(0.75*r)], delimiter=' ')
 			np.savetxt(name_ts, B[np.round(0.75*r):r], delimiter=' ')
+	return 1
+
+
+def generating_datasets2():
+	path = './diabetes/'
+	filenames = os.listdir(path)
+	for filename in filenames:
+		if 'ts' in filename: continue
+		data = np.load(path+filename)
+		#target name
+		tgt = path+filename[:-4]+'{0}.npy'
+		np.random.shuffle(data)
+		np.save(tgt.format('-100'), data[0:100])
+		np.random.shuffle(data)
+		np.save(tgt.format('-200'), data[0:200])
+		np.random.shuffle(data)
+		np.save(tgt.format('-300'), data[0:300])
 	return 1
