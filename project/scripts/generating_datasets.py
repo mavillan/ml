@@ -28,37 +28,40 @@ else:
 		sys.exit('wrong number of samples per class!')
 	
 #set some variables according to input parameters
-path = './db/'+inp_db+'/'                                    #source path
-tr_path = './db/train'+inp_db[-2:]+'/'+str(n_train)+'pc/'    #training path
-ts_path = './db/test'+inp_db[-2:]+'/'+str(20-n_train)+'pc/'  #testing path
-N = len(os.listdir(path))                                    #total number classes (people)
+path = './db/'+inp_db+'/'                                          #source path
+tr_path = './db/train'+inp_db[-2:]+'/tr-'+str(n_train)+'pc-{0}/'    #training path
+ts_path = './db/test'+inp_db[-2:]+'/ts-'+str(20-n_train)+'pc-{0}/'  #testing path
+N = len(os.listdir(path))                                          #total number classes (people)
 
+#verify if training folder exists
+for k in range(20):
+	if os.path.exists(tr_path.format(str(k))):
+		sys.exit(tr_path.format(str(k))+' directory already exists!')
+	else:
+		os.makedirs(tr_path.format(str(k)))
 
-if os.path.exists(tr_path):
-	sys.exit(tr_path+' directory already exists!')
-else:
-	os.makedirs(tr_path)
-
-if os.path.exists(ts_path):
-	sys.exit(ts_path+' directory already exists!')
-else:
-	os.makedirs(ts_path)
+	if os.path.exists(ts_path.format(str(k))):
+		sys.exit(ts_path.format(str(k))+' directory already exists!')
+	else:
+		os.makedirs(ts_path.format(str(k)))
 
 #iterate through all files in ./faces directory
-for i in range(1,N):
-	tgt = path+str(i)+'/'
-	files = os.listdir(tgt)
-	#shuffle the filenames to make it fair
-	random.shuffle(files)
+#20 times
+for k in range(20):
+	for i in range(1,N+1):
+		tgt = path+str(i)+'/'
+		files = os.listdir(tgt)
+		#shuffle the filenames to make it fair
+		random.shuffle(files)
 
-	#create target directories
-	os.makedirs(tr_path+str(i))
-	os.makedirs(ts_path+str(i))
+		#create target directories
+		os.makedirs(tr_path.format(str(k))+str(i))
+		os.makedirs(ts_path.format(str(k))+str(i))
 
-	#copy the first n_train photos in train and the remaining
-	#20-n_train in test directories
-	for j in range(n_train):
-		shutil.copy(tgt+files[j], tr_path+str(i))
-	for j in range(n_train,20):
-		shutil.copy(tgt+files[j], ts_path+str(i))
+		#copy the first n_train photos in train and the remaining
+		#20-n_train in test directories
+		for j in range(n_train):
+			shutil.copy(tgt+files[j], tr_path.format(str(k))+str(i))
+		for j in range(n_train,20):
+			shutil.copy(tgt+files[j], ts_path.format(str(k))+str(i))
 print "Done!"
