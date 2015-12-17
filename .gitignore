@@ -42,7 +42,7 @@ _region_.tex
 #*.npy
 
 #dirs to ignore
-#project/db
+project/db
 
 
 DEADJOE
