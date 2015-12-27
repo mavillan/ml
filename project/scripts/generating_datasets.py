@@ -24,7 +24,7 @@ else:
 	if inp_db not in ['faces94','faces95','faces96']:
 		sys.exit('database not valid!')
 	n_train = int(sys.argv[2])
-	if n_train<1 or n_train>5:
+	if n_train<1 or n_train>6:
 		sys.exit('wrong number of samples per class!')
 	
 #set some variables according to input parameters
