@@ -53,22 +53,31 @@ def solve_cnn(dataset, spc, verbose=False):
         #loading training and testing set
         X_tr,y_tr = load_data(tr_path.format(spc_tr,set_num), stacked=True)
         X_ts,y_ts = load_data(ts_path.format(spc_ts,set_num), stacked=True)
+        
         #creating CNN object and fitting the training data
-        clf = Classifier(
-        	layers=[
-        		Convolution('Rectifier', channels=12, kernel_shape=(5,5), pool_type='max', pool_shape=(2,2)),
-		        Convolution('Rectifier', channels=8, kernel_shape=(4,4), pool_type='max', pool_shape=(2,2)),
-		        Layer('Rectifier', units=128, dropout=0.25),
-		        Layer('Softmax')],
-    		learning_rule='adagrad',
-    		learning_rate=0.00002,
-    		n_iter=500,
-    		batch_size=100,
-    		verbose=True)
-        #fitting and timing
-        t0 = time.clock()
-        clf.fit(X_tr, y_tr)
-        elapsed = time.clock()-t0
+        init_learning_rate=0.0001
+        while True:
+            try:
+                clf = Classifier(
+                	layers=[
+                		Convolution('Rectifier', channels=12, kernel_shape=(5,5), pool_type='max', pool_shape=(2,2)),
+        		        Convolution('Rectifier', channels=8, kernel_shape=(4,4), pool_type='max', pool_shape=(2,2)),
+        		        Layer('Rectifier', units=128, dropout=0.25),
+        		        Layer('Softmax')],
+            		learning_rule='nesterov',
+            		learning_rate=init_learning_rate,
+            		n_iter=1000,
+            		batch_size=50,
+            		verbose=True)
+                #fitting and timing
+                t0 = time.clock()
+                clf.fit(X_tr, y_tr)
+                elapsed = time.clock()-t0
+                break
+            except:
+                #if diverges, try with this new learning rate
+                init_learning_rate /= 10.
+
         #computing training error
         tr_err.append(1.-clf.score(X_tr,y_tr))
         #computing testing error
