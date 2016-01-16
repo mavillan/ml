@@ -62,12 +62,13 @@ def solve_cnn(dataset, spc, verbose=False):
                 	layers=[
                 		Convolution('Rectifier', channels=12, kernel_shape=(5,5), pool_type='max', pool_shape=(2,2)),
         		        Convolution('Rectifier', channels=8, kernel_shape=(4,4), pool_type='max', pool_shape=(2,2)),
-        		        Layer('Rectifier', units=128, dropout=0.25),
+        		        Layer('Rectifier', units=128),
         		        Layer('Softmax')],
-            		learning_rule='nesterov',
+            		learning_rule='rmsprop',
             		learning_rate=init_learning_rate,
-            		n_iter=1000,
-            		batch_size=50,
+            		n_iter=500,
+                    n_stable=10,
+            		batch_size=25,
             		verbose=True)
                 #fitting and timing
                 t0 = time.clock()
