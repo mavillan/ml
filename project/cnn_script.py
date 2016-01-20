@@ -18,7 +18,7 @@ def load_data(path, stacked=False):
     #matrix with features
     if stacked:
         data = np.empty((M*spc,200,180), dtype=np.float32)
-    else:
+    else: 
         data = np.empty((M*spc,N), dtype=np.float32)
     labels = np.empty(M*spc, dtype=np.uint8)
     #index of data matrix
@@ -53,23 +53,32 @@ def solve_cnn(dataset, spc, verbose=False):
         #loading training and testing set
         X_tr,y_tr = load_data(tr_path.format(spc_tr,set_num), stacked=True)
         X_ts,y_ts = load_data(ts_path.format(spc_ts,set_num), stacked=True)
+        
         #creating CNN object and fitting the training data
-        clf = Classifier(
-        	layers=[
-        		Convolution('Rectifier', channels=12, kernel_shape=(5,5), pool_type='max', pool_shape=(2,2)),
-		        Convolution('Rectifier', channels=8, kernel_shape=(4,4), pool_type='max', pool_shape=(2,2)),
-		        Layer('Rectifier', units=128),
-		        Layer('Softmax')],
-    		learning_rule='nesterov',
-    		learning_rate=0.0000001,
-    		n_iter=1000,
-            	n_stable=10,
-    		batch_size=25,
-    		verbose=True)
-        #fitting and timing
-        t0 = time.clock()
-        clf.fit(X_tr, y_tr)
-        elapsed = time.clock()-t0
+        init_learning_rate=0.0001
+        while True:
+            try:
+                clf = Classifier(
+                	layers=[
+                		Convolution('Rectifier', channels=12, kernel_shape=(5,5), pool_type='max', pool_shape=(2,2)),
+        		        Convolution('Rectifier', channels=8, kernel_shape=(4,4), pool_type='max', pool_shape=(2,2)),
+        		        Layer('Rectifier', units=128),
+        		        Layer('Softmax')],
+            		learning_rule='rmsprop',
+            		learning_rate=init_learning_rate,
+            		n_iter=500,
+			n_stable=10,
+            		batch_size=25,
+            		verbose=True)
+                #fitting and timing
+                t0 = time.clock()
+                clf.fit(X_tr, y_tr)
+                elapsed = time.clock()-t0
+                break
+            except:
+                #if diverges, try with this new learning rate
+                init_learning_rate /= 10.
+
         #computing training error
         tr_err.append(1.-clf.score(X_tr,y_tr))
         #computing testing error
@@ -86,7 +95,7 @@ def solve_cnn(dataset, spc, verbose=False):
 
 
 if __name__=='__main__':
-	if len(sys.argv)!=3:
+	if len(sys.argv)!=3: 
 		sys.exit('bad number of arguments!')
 
 	#dataset name and samples per class
