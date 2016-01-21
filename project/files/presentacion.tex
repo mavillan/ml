@@ -1,4 +1,4 @@
-  \documentclass{beamer}
+\documentclass{beamer}
 
 % Used packages
 \usepackage[utf8]{inputenc}
@@ -313,10 +313,120 @@ respectivamente:
 
 \subsection{Convolutional Neural Networks}
 
-\begin{frame}{CNN}
-:-(...
+\begin{frame}{Preliminares}
+
+Las capas que maneja una CNN son básicamente
+
+\begin{itemize}
+  \item \textbf{Convolucional:} Consiste de un arreglo rectangular de neuronas, requiere que la capa previa sea también un arreglo rectangular. Cada una de estas neuronas toma inputs de sección una rectangular de la capa previa (\textit{local receptive field}), siendo los pesos para esta región rectangular los mismos para cada neurona en la capa convolucional (\textit{weight sharing}). Luego, la capa convolucional es sólo una convolución de imagen de la capa previa, donde los pesos especifican el filtro de convolución.
+  \end{itemize}
 \end{frame}
 
+\begin{frame}{Preliminares (2)}
+\begin{figure}[htpb!]
+\centering
+\includegraphics[width=7cm]{convolution_1}
+\caption{Esquema de convolución como filtro}
+\end{figure}
+\end{frame}
+
+\begin{frame}{Preliminares (3)}
+\begin{itemize}
+\item \textbf{Pooling}: Después de cada capa convolucional, suele estar una capa de \textit{pooling}. Estas toman una pequeña región rectangular desde el el output de la capa convolucional, y realiza $subsampling$ produciendo un solo input desde el bloque. El proceso de pooling puede implementarse de varias formas: Tomando el máximo, el promedio, promedio con pesos, etc. El objetivo es dar holgura espacial a la posición de las características computadas.
+
+\item \textbf{Fully Connected:} Después de cualquier configuración de capas convolucional y de pooling, el \textit{aprendizaje de alto nivel} de la red, sigue siendo por una capa densa.
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Preliminares (4)}
+\begin{figure}[htpb!]
+\centering
+\includegraphics[width=7cm]{convolution_2}
+\caption{Esquema de max pooling}
+\end{figure}
+\end{frame}
+
+
+\begin{frame}{Preliminares (5)}
+\begin{figure}[htpb!]
+\centering
+\includegraphics[width=10cm]{convolution_3}
+\caption{Esquema clásico de CNN}
+\end{figure}
+\end{frame}
+
+
+\begin{frame}{Configuración utilizada}
+\begin{itemize}
+\item \textbf{Convolution Layer 1}: ReLU activation, 12 channels, $5\times 5$ filter.
+\item \textbf{Pooling Layer 1}: Pooling type: Max pooling, Pool shape: $2 \times 2$.
+\item \textbf{Convolution Layer 2}: ReLU activation, 8 channels, $4\times 4$ filter.
+\item \textbf{Pooling Layer 2}: Pooling type: Max pooling, Pool shape: $2 \times 2$.
+\item \textbf{Fully Connected Layer}: ReLU activation, $128$ neurons.
+\item \textbf{Softmax Layer.}
+\end{itemize}
+
+Adicionalmente se ocupa como algoritmo de optimización \textit{RMSprop}, número máximo de épocas de $500$ y
+\textit{dropout} como regularización.
+\end{frame}
+
+
+\begin{frame}{Resultados CNN en Faces94 (1)}
+\begin{figure}[htpb!]
+\centering
+\includegraphics[width=11cm]{convolution_4}
+\caption{Resultados obtenidos con CNN en \textbf{Faces94} - 3spc}
+\end{figure}
+\end{frame}
+
+\begin{frame}{Resultados CNN en Faces94 (2)}
+\begin{figure}[htpb!]
+\centering
+\includegraphics[width=11cm]{convolution_5}
+\caption{Resultados obtenidos con CNN en \textbf{Faces94} - 4spc}
+\end{figure}
+\end{frame}
+
+\begin{frame}{Resultados CNN en Faces94 (3)}
+\begin{figure}[htpb!]
+\centering
+\includegraphics[width=11cm]{convolution_6}
+\caption{Resultados obtenidos con CNN en \textbf{Faces94} - 5spc}
+\end{figure}
+\end{frame}
+
+\begin{frame}{Resultados CNN en Faces95 (1)}
+\begin{figure}[htpb!]
+\centering
+\includegraphics[width=11cm]{convolution_7}
+\caption{Resultados obtenidos con CNN en \textbf{Faces95} - 3spc}
+\end{figure}
+\end{frame}
+
+\begin{frame}{Resultados CNN en Faces95 (2)}
+\begin{figure}[htpb!]
+\centering
+\includegraphics[width=11cm]{convolution_8}
+\caption{Resultados obtenidos con CNN en \textbf{Faces95} - 4spc}
+\end{figure}
+\end{frame}
+
+\begin{frame}{Resultados CNN en Faces95 (3)}
+\begin{figure}[htpb!]
+\centering
+\includegraphics[width=11cm]{convolution_9}
+\caption{Resultados obtenidos con CNN en \textbf{Faces95} - 5spc}
+\end{figure}
+\end{frame}
+
+
+\begin{frame}{Comentarios finales CNN}
+\begin{itemize}
+  \item No fue posible realizar \textit{cross-validation}, pues cada \textit{epoch} toma una cantidad muy alta de tiempo.
+  \item Por lo tanto parámetros fueron configurados siguiendo la arquitectura de la red \texttt{LeNet5} extendiendo
+  el número de canales y unidades de la capa densa.
+\end{itemize}
+\end{frame}
 
 
 
