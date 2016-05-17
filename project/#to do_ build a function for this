@@ -1,0 +1,71 @@
+#to do: build a function for this
+mean1 = []; mean2 = []; mean3 = []
+lower1 = []; lower2 = []; lower3 = []
+upper1 = []; upper2 = []; upper3 = []
+for error in ts_errors_lda_faces95:
+    mu,l,u = mean_confidence_interval(error)
+    mean1.append(mu)
+    lower1.append(l)
+    upper1.append(u)
+for error in ts_errors_lsvm_faces95:
+    mu,l,u = mean_confidence_interval(error)
+    mean2.append(mu)
+    lower2.append(l)
+    upper2.append(u)
+for error in ts_errors_ksvm_faces95:
+    mu,l,u = mean_confidence_interval(error)
+    mean3.append(mu)
+    lower3.append(l)
+    upper3.append(u)
+mean1 = np.array(mean1); mean2 = np.array(mean2); mean3 = np.array(mean3)
+lower1 = np.array(lower1); lower2 = np.array(lower2); lower3 = np.array(lower3)
+upper1 = np.array(upper1); upper2 = np.array(upper2); upper3 = np.array(upper3)
+x1 = np.array([2,5,8])
+x2 = np.array([3,6,9])
+x3 = np.array([4,7,10])
+plt.figure(figsize=(12,6))
+plt.xlim([1,11])
+labels = ['3spc','3spc','3spc','4spc','4spc','4spc','5spc','5spc','5spc']
+plt.errorbar(x1, mean1, yerr=[lower1,upper1], fmt='o', label='LDA')
+plt.errorbar(x2, mean2, yerr=[lower2,upper2],fmt='o', label='Linear Nu-SVM')
+plt.errorbar(x3, mean3, yerr=[lower3,upper3],fmt='o', label='Kernel Nu-SVM')
+plt.xticks([2,3,4,5,6,7,8,9,10],labels)
+plt.xlabel('Samples per class')
+plt.ylabel('Mean error rate')
+plt.title('Testing errors comparison with different samples per class: Faces95')
+plt.legend(bbox_to_anchor=(1.25, 1.0))
+plt.show()
+
+
+
+
+#to do: build a function for this
+mean1 = []; mean2 = []; mean3 = []
+lower1 = []; lower2 = []; lower3 = []
+upper1 = []; upper2 = []; upper3 = []
+for error in ts_errors_lda_faces94:
+    mu,l,u = mean_confidence_interval(error)
+    mean1.append(mu)
+    lower1.append(l)
+    upper1.append(u)
+for error in ts_errors_lsvm_faces94:
+    mu,l,u = mean_confidence_interval(error)
+    mean2.append(mu)
+    lower2.append(l)
+    upper2.append(u)
+mean1 = np.array(mean1); mean2 = np.array(mean2); mean3 = np.array(mean3)
+lower1 = np.array(lower1); lower2 = np.array(lower2); lower3 = np.array(lower3)
+upper1 = np.array(upper1); upper2 = np.array(upper2); upper3 = np.array(upper3)
+x1 = np.array([2,4,6])
+x2 = np.array([3,5,7])
+plt.figure(figsize=(12,6))
+plt.xlim([1,8])
+labels = ['3spc','3spc','4spc','4spc','5spc','5spc']
+plt.errorbar(x1, mean1, yerr=[lower1,upper1], fmt='o', label='LDA')
+plt.errorbar(x2, mean2, yerr=[lower2,upper2],fmt='o', label='Linear Nu-SVM')
+plt.xticks([2,3,4,5,6,7],labels)
+plt.xlabel('Samples per class')
+plt.ylabel('Mean error rate')
+plt.title('Testing errors comparison with different samples per class: Faces94')
+plt.legend(bbox_to_anchor=(1.25, 1.0))
+plt.show()

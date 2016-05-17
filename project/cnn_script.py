@@ -66,8 +66,9 @@ def solve_cnn(dataset, spc, verbose=False):
         		        Layer('Softmax')],
             		learning_rule='rmsprop',
             		learning_rate=init_learning_rate,
-            		n_iter=500,
-			n_stable=10,
+            		
+                    n_iter=500,
+			        n_stable=10,
             		batch_size=25,
             		verbose=True)
                 #fitting and timing
